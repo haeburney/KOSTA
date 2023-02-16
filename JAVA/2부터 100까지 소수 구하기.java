@@ -10,12 +10,12 @@ public class Practice {
 		for(int i=2;i<=100;i++) {
 			int num=(int)Math.sqrt(i);
 			int count=0;
-			for(int j=1;j<=num;j++) {
+			for(int j=2;j<=num;j++) {
 				if(i%j==0) count++;
-				if(count>1) break;
+				if(count>0) break;
 			}
 
-			if(count==1) {
+			if(count==0) {
 				System.out.println(i);
 			}
 		}
