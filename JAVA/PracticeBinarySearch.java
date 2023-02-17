@@ -7,8 +7,6 @@ public class PracticeBinarySearch {
 	public static int[] array = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 	public static int num;
 	public static int middle;
-	public static boolean flag = true;
-	public static int result;
 	public static int low = 0;
 	public static int high = array.length;
 
@@ -20,7 +18,6 @@ public class PracticeBinarySearch {
 	public static void search(int middle) {
 		System.out.println(middle);
 		if (num == array[middle]) {
-			result = middle;
 			System.out.println("찾으려는 값은 " + middle + "에 있습니다.");
 			return;
 
@@ -53,8 +50,5 @@ public class PracticeBinarySearch {
 
 		search(middle);
 
-		if (!flag) {
-			System.out.println("찾으려는 숫자는 존재하지 않습니다.");
-		}
 	}
 }
