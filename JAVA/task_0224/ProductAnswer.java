@@ -1,4 +1,4 @@
-package Task_0224;
+package kosta_2;
 
 public class ProductAnswer {
 	private int num;

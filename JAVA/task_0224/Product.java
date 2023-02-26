@@ -1,4 +1,4 @@
-package Task_0224;
+package kosta_2;
 
 public class Product {
 	private int num;
@@ -73,41 +73,5 @@ public class Product {
 	public String toString() {
 		return num + " / " + name + " / " + url + " / " + id + " / " + price + " / " + amount;
 	}
-/*
-	public static void main(String[] args) {
-		Product p1 = new Product();
-		p1.setNum(1);
-		p1.setName("mango");
-		p1.setUrl("www.mango.com");
-		p1.setId("aaa");
-		p1.setPrice(1000);
-		p1.setAmount(10);
 
-		System.out.println("***** p1 *****");
-		System.out.println("제품번호 : " + p1.getNum());
-		System.out.println("제품명 : " + p1.getName());
-		System.out.println("사진경로 : " + p1.getUrl());
-		System.out.println("판매자 ID : " + p1.getId());
-		System.out.println("가격: " + p1.getPrice());
-		System.out.println("제품번호 : " + p1.getAmount() + "\n");
-		System.out.println(p1 + "\n\n");
-
-		Product p2 = new Product();
-		p2.setNum(2);
-		p2.setName("apple");
-		p2.setUrl("www.apple.com");
-		p2.setId("bbb");
-		p2.setPrice(2000);
-		p2.setAmount(20);
-
-		System.out.println("***** p2 *****");
-		System.out.println("제품번호 : " + p2.getNum());
-		System.out.println("제품명 : " + p2.getName());
-		System.out.println("사진경로 : " + p2.getUrl());
-		System.out.println("판매자 ID : " + p2.getId());
-		System.out.println("가격: " + p2.getPrice());
-		System.out.println("제품번호 : " + p2.getAmount() + "\n");
-		System.out.println(p2 + "\n\n");
-	}
-	*/
 }

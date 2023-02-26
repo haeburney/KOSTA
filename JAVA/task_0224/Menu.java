@@ -1,4 +1,4 @@
-package Task_0224;
+package kosta_2;
 
 import java.util.Scanner;
 
@@ -22,15 +22,16 @@ public class Menu {
 				service.allInput(sc);
 				break;
 			case 2:
-				//service.searchNumber(sc);
 				service.printProduct(sc);
 				break;
 			case 3:
+				service.searchName(sc);
 				break;
 			case 4:
 				service.modify(sc);
 				break;
 			case 5:
+				service.delete(sc);
 				break;
 			case 6:
 				service.allPrint();
