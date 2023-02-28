@@ -8,12 +8,9 @@ public class ProductService {
 	private ArrayList<Product> searchList;
 
 	public ProductService() {
-
-	}
-
-	public ProductService(int size) {
 		listProds = new ArrayList<Product>();
 		searchList = new ArrayList<Product>();
+		// listProds = new ArrayList<>();
 	}
 
 	public void allInput(Scanner sc) { // 1.추가
@@ -30,11 +27,13 @@ public class ProductService {
 		p.setPrice(sc.nextInt());
 		System.out.print("수량 : ");
 		p.setAmount(sc.nextInt());
+
 		listProds.add(p);
+		System.out.println(p);
 	}
 
 	public int overlap(Scanner sc) { // 번호 중복 체크
-		System.out.println("제품 번호 입력 : ");
+		System.out.print("제품 번호 입력 : ");
 		int idx = overlapNumber(sc);
 		if (idx == -1) {
 			System.out.print("번호 중복! 다시 ");
@@ -45,6 +44,7 @@ public class ProductService {
 
 	public int overlapNumber(Scanner sc) { // 2-1. 번호 중복 없으면 입력 계속 가능하게
 		int s = sc.nextInt();
+
 		for (int i = 0; i < listProds.size(); i++) {
 			if (s == listProds.get(i).getNum()) {
 				return -1;
@@ -55,6 +55,7 @@ public class ProductService {
 
 	public int searchNumber(Scanner sc) { // 2-1. 번호 중복 있으면 그거 리턴
 		int s = sc.nextInt();
+
 		for (int i = 0; i < listProds.size(); i++) {
 			if (s == listProds.get(i).getNum()) {
 				return i;
@@ -63,8 +64,21 @@ public class ProductService {
 		return -1;
 	}
 
+	// 번호로 검색하고 출력
+//	public void getProduct(Scanner sc) {
+//		System.out.println("검색할 제품 번호: ");
+//		int num = sc.nextInt();
+//		int idx = getByNum(num);
+//		if (idx < 0) {
+//			System.out.println("없다.");
+//		} else {
+//			Product p = listProds.get(idx);
+//			System.out.println(p);
+//		}
+//	}
+
 	public void printProduct(Scanner sc) { // 2. 번호로 검색
-		System.out.println("검색하고 싶은 넘버를 입력하세요");
+		System.out.print("검색하고 싶은 넘버를 입력하세요 : ");
 		int idx = searchNumber(sc);
 
 		if (idx < 0) {
@@ -75,25 +89,19 @@ public class ProductService {
 	}
 
 	public void searchName(Scanner sc) { // 3. 제품명으로 검색
-		System.out.println("검색하고 싶은 제품명을 입력하세요");
+		System.out.print("검색하고 싶은 제품명을 입력하세요 : ");
+		String s = sc.next();
 		searchList.clear();
 		Product p = new Product();
-		int cnt = 0;
-		String s = sc.next();
+
 		for (int i = 0; i < listProds.size(); i++) {
 			if (listProds.get(i).getName().equals(s)) {
-				p.setAmount(listProds.get(i).getAmount());
-				p.setNum(listProds.get(i).getNum());
-				p.setName(listProds.get(i).getName());
-				p.setId(listProds.get(i).getId());
-				p.setPrice(listProds.get(i).getPrice());
-				p.setUrl(listProds.get(i).getUrl());
+				p = listProds.get(i);
 				searchList.add(p);
-				cnt++;
 			}
 		}
 
-		if (cnt == 0) {
+		if (searchList.size() == 0) {
 			System.out.println("검색한 제품이 존재하지 않습니다.");
 		} else {
 			for (int i = 0; i < searchList.size(); i++) {
@@ -102,8 +110,37 @@ public class ProductService {
 		}
 	}
 
+	// 3. 제품명으로 검색 (쌤.ver) 중복된 것 모두 찾아줌
+	public ArrayList<Product> getByName(Scanner sc) {
+		System.out.print("검색할 제품명 : ");
+		String name = sc.next();
+		ArrayList<Product> datas = new ArrayList<>();
+
+		for (int i = 0; i < listProds.size(); i++) {
+			Product p = listProds.get(i);
+			if (name.equals(p.getName())) {
+				datas.add(p);
+			}
+		}
+
+		return datas;
+	}
+
+	public void printByName(Scanner sc) {
+		ArrayList<Product> datas = getByName(sc);
+		
+		if (datas.isEmpty()) {
+			System.out.println("검색된 제품이 없습니다.");
+			return;
+		}
+		
+		for (int i = 0; i < datas.size(); i++) {
+			System.out.println(datas.get(i));
+		}
+	}
+
 	public void modify(Scanner sc) { // 4. 수정
-		System.out.println("수정하고 싶은 숫자를 입력하세요");
+		System.out.print("수정하고 싶은 숫자를 입력하세요 : ");
 		int idx = searchNumber(sc);
 
 		if (idx < 0) {
@@ -117,7 +154,7 @@ public class ProductService {
 
 			System.out.print("가격 입력 : ");
 			listProds.get(idx).setPrice(sc.nextInt());
-		
+
 			System.out.print("수량 : ");
 			listProds.get(idx).setAmount(sc.nextInt());
 
@@ -127,36 +164,30 @@ public class ProductService {
 	}
 
 	public void delete(Scanner sc) { // 5.삭제
-		System.out.println("삭제하고 싶은 번호를 입력하세요");
-		int idx = searchNumber(sc);
-
-		System.out.println("삭제 전 정보");
+		System.out.println("*** 삭제 전 정보 ***");
 		for (int i = 0; i < listProds.size(); i++) {
 			System.out.println(listProds.get(i));
 		}
+
+		System.out.print("삭제하고 싶은 번호를 입력하세요 : ");
+		int idx = searchNumber(sc);
 
 		if (idx < 0) {
 			System.out.println("데이터가 존재하지 않습니다.");
 			return;
 		} else {
-			for (int i = idx; i < listProds.size() - 1; i++) {
-				listProds.get(i).setAmount(listProds.get(i + 1).getAmount());
-				listProds.get(i).setId(listProds.get(i + 1).getId());
-				listProds.get(i).setName(listProds.get(i + 1).getName());
-				listProds.get(i).setNum(listProds.get(i + 1).getNum());
-				listProds.get(i).setPrice(listProds.get(i + 1).getPrice());
-				listProds.get(i).setUrl(listProds.get(i + 1).getUrl());
-			}
-			listProds.remove(listProds.size() - 1);
+			listProds.remove(idx);
 		}
 
-		System.out.println("삭제 후 정보");
+		System.out.println("*** 삭제 후 정보 ***");
 		for (int i = 0; i < listProds.size(); i++) {
 			System.out.println(listProds.get(i));
 		}
 	}
 
 	public void allPrint() { // 6.전체출력
+		//ArrayList<Product> data = listProds;
+		//System.out.println(data); toString() 출력
 		for (int i = 0; i < listProds.size(); i++) {
 			System.out.println(listProds.get(i));
 		}

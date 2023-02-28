@@ -6,7 +6,7 @@ public class Menu {
 	private ProductService service;
 
 	public Menu() {
-		service = new ProductService(30);
+		service = new ProductService();
 	}
 
 	public void run(Scanner sc) {
@@ -26,6 +26,7 @@ public class Menu {
 				break;
 			case 3:
 				service.searchName(sc);
+				//service.printByName(sc);
 				break;
 			case 4:
 				service.modify(sc);
