@@ -12,6 +12,7 @@ class FileCopy {
 
 	// 파일 읽기 메서드. 파람으로 읽을 파일의 경로를 받음
 	public String fileRead(String path) {
+		// 파일을 읽어서 그 내용을 하나의 String으로 반환
 		// 문자열 조작을 빠르게 처리하는 클래스다.
 		// 파일에서 읽은 내용을 저장
 		StringBuilder sb = new StringBuilder();
@@ -32,6 +33,7 @@ class FileCopy {
 			e.printStackTrace();
 		}
 		return sb.toString(); // 파일 전체 내용 반환. toString() : StringBuilder 값을 String으로 변환
+		// 현재 저장된 문자열을 return하도록 재정의
 	}
 
 	// 파일 복사 메서드. 파람1: 원본 파일 경로, 파람2: 복사 파일 경로
@@ -59,9 +61,11 @@ public class CopyAnswer {
 
 		System.out.print("원본 파일명 : ");
 		String origin = sc.next();
-		
+
 		// File : 파일에 대한 정보. 파일이 존재하나, 읽기, 쓰기, 실행 가능 등의 파일에 대한 정보를 갖는다.
+		// 파일에는 존재하냐, crud각각 가능하냐~ 등등 정보를 갖고 있다.
 		File f = new File(dir + origin + end);
+		
 		if (!f.exists()) { // exists() : 해당 파일이 존재하면 true, 아니면 false 반환
 			System.out.println("원본 파일이 존재하지 않습니다.");
 			return;
@@ -69,15 +73,15 @@ public class CopyAnswer {
 		// 복사될 파일명 입력
 		System.out.print("복사 파일명 : ");
 		String copy = sc.next();
-		
+
 		FileCopy fc = new FileCopy();
-		
+
 		// 복사 메서드 실행
 		fc.copy(dir + origin + end, dir + copy + end);
-		
+
 		// 복사 파일의 내용 읽음
 		String res = fc.fileRead(dir + copy + end);
-		
+
 		// 파일 내용 출력
 		System.out.println(res);
 	}
