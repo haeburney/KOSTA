@@ -3,6 +3,7 @@ package emp;
 import java.sql.Date;
 // util 말고 sql을 import 해야 한다.
 
+
 public class EmpVo {
 	private int empId;
 	private String name;
