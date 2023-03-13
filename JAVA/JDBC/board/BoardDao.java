@@ -108,7 +108,6 @@ public class BoardDao {
 				String title = rs.getString(4);
 				String content = rs.getString(5);
 				vo = new BoardVo(num1, writer, date, title, content);
-				System.out.println("객체 담김요~");
 			}
 
 		} catch (SQLException e) {
@@ -158,17 +157,17 @@ public class BoardDao {
 
 	// 전체 검색
 	public ArrayList<BoardVo> selectAll() {
-		ArrayList<BoardVo> list=new ArrayList<>();
+		ArrayList<BoardVo> list = new ArrayList<>();
 		Connection conn = dbconn.conn();
-		
-		String sql="select * from board";
+
+		String sql = "select * from board order by num desc";
 		try {
-			PreparedStatement pstmt=conn.prepareStatement(sql);
-			ResultSet rs=pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(new BoardVo(rs.getInt(1),rs.getString(2),rs.getDate(3),rs.getString(4),rs.getString(5)));
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				list.add(new BoardVo(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getString(4), rs.getString(5)));
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -179,25 +178,24 @@ public class BoardDao {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} 
+		}
 		return list;
 	}
 
 	// 제목으로 검색
-	public ArrayList<BoardVo> selectTitle(String title){
-		ArrayList<BoardVo> list=new ArrayList<>();
-		Connection conn=dbconn.conn();
-		
-		String sql="select * from board where title like ?";
+	public ArrayList<BoardVo> selectTitle(String title) {
+		ArrayList<BoardVo> list = new ArrayList<>();
+		Connection conn = dbconn.conn();
+
+		String sql = "select * from board where title like ?";
 		try {
-			PreparedStatement pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+title+"%");
-			ResultSet rs=pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(new BoardVo(rs.getInt(1),rs.getString(2),rs.getDate(3),rs.getString(4),rs.getString(5)));
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + title + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				list.add(new BoardVo(rs.getInt(1), rs.getString(2), rs.getDate(3), rs.getString(4), rs.getString(5)));
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

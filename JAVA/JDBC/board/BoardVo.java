@@ -65,5 +65,5 @@ public class BoardVo {
 	public String toString() {
 		return "BoardVo [num=" + num + ", writer=" + writer + ", date=" + date + ", title=" + title + ", content="
 				+ content + "]";
-	}	
+	}
 }
