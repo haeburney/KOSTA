@@ -5,7 +5,6 @@ import java.sql.Date;
 public class PaymentVo {
 	private Date day;
 	private String menuName;
-	private int count;
 	private int price;
 	private String id;
 
@@ -13,11 +12,10 @@ public class PaymentVo {
 
 	}
 
-	public PaymentVo(Date day, String menuName, int count, int price, String id) {
+	public PaymentVo(Date day, String menuName, int price, String id) {
 		super();
 		this.day = day;
 		this.menuName = menuName;
-		this.count = count;
 		this.price = price;
 		this.id = id;
 	}
@@ -38,14 +36,6 @@ public class PaymentVo {
 		this.menuName = menuName;
 	}
 
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
 	public int getPrice() {
 		return price;
 	}
@@ -64,8 +54,6 @@ public class PaymentVo {
 
 	@Override
 	public String toString() {
-		return "PaymentVo [day=" + day + ", menuName=" + menuName + ", count=" + count + ", price=" + price + ", id="
-				+ id + "]";
+		return "PaymentVo [day=" + day + ", menuName=" + menuName + ", price=" + price + ", id=" + id + "]";
 	}
-
 }

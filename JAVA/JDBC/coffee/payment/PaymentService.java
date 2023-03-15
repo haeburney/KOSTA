@@ -3,18 +3,27 @@ package payment;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import member.MemberDao;
+import member.MemberService;
+import membership.MembershipDao;
+import membership.MembershipService;
+import menu.MenuVo;
+
 public class PaymentService {
 	PaymentDao dao;
-	public static String id;
-	// 로그인 되면 값이 들어가있고 아니면 null
 
 	public PaymentService() {
 		dao = new PaymentDao();
 	}
 
-	public void insert() { // ★☆
-		// day : 오늘 날짜 / id : 로그인 된 id로 / count : 결제내역에서 불러오기? / name price : 메뉴 테이블에서
-		// 가격 가져오기
+	public void insert(ArrayList<MenuVo> cart) { // ★☆ 결제내역에 할인된 가격이 들어가야지 응응..?
+		MembershipDao membershipDao = new MembershipDao();
+		double rate = membershipDao.select(MemberService.LOGINID).getRate();
+
+		for (int i = 0; i < cart.size(); i++) {
+			dao.insert(new PaymentVo(null, cart.get(i).getMenuName(), (int) (cart.get(i).getPrice() * rate),
+					MemberService.LOGINID));
+		}
 	}
 
 	public void selectAll() {
@@ -31,22 +40,20 @@ public class PaymentService {
 		System.out.print("메뉴 이름을 입력해주세요 : ");
 		PaymentVo vo = dao.menuPrint(name);
 
-		System.out.println("메뉴 : " + vo.getMenuName() + "  / 총 수량 : " + vo.getCount() + "  / 총 금액 : " + vo.getPrice());
+		System.out.println("메뉴 : " + vo.getMenuName() + "  / 총 금액 : " + vo.getPrice());
 	}
 
 	public void month() {
 		ArrayList<PaymentVo> list = dao.monthPrint();
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("월별 : " + list.get(i).getMenuName() + "  / 총 수량 : " + list.get(i).getCount()
-					+ " /  총 금액 : " + list.get(i).getPrice());
+			System.out.println("월별 : " + list.get(i).getMenuName() + " /  총 금액 : " + list.get(i).getPrice());
 		}
 	}
 
 	public void year() {
 		ArrayList<PaymentVo> list = dao.yearPrint();
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("월별 : " + list.get(i).getMenuName() + "  / 총 수량 : " + list.get(i).getCount()
-					+ " /  총 금액 : " + list.get(i).getPrice());
+			System.out.println("월별 : " + list.get(i).getMenuName() + " /  총 금액 : " + list.get(i).getPrice());
 		}
 	}
 
@@ -64,11 +71,11 @@ public class PaymentService {
 		String lastMonth = sc.next();
 
 		PaymentVo vo = dao.selectPrice(firstYear + "-" + firstMonth, lastYear + "-" + lastMonth);
-		System.out.println("총 수량 : " + vo.getCount() + "  / 총 금액 : " + vo.getPrice());
+		System.out.println("  / 총 금액 : " + vo.getPrice());
 	}
 
 	// 사용자 ver : id로 검색해서 결제 내역 보여주기
-	public void paymentId() {
+	public void paymentId(String id) {
 		if (id != null) {
 			PaymentVo vo = dao.selectId(id);
 
