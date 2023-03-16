@@ -3,23 +3,33 @@ package menu;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import membership.MembershipService;
+import member.MemberService;
+import membership.MembershipDao;
+import membership.MembershipVo;
 
 public class MenuService {
 	private MenuDao menuDao;
-	public static String LOGINID;
 	private ArrayList<MenuVo> cart;
-	MembershipService membershipService;
 
 	public MenuService() {
 		menuDao = new MenuDao();
 		cart = new ArrayList<>();
-		membershipService=new MembershipService();
+	}
+
+	// 메뉴 번호 중복 검사
+	public int dupTest() {
+		ArrayList<MenuVo> list = menuDao.selectAll();
+		int max = 0;
+		for (MenuVo vo : list) {
+			max = Math.max(max, vo.getNum());
+		}
+		return max + 1;
 	}
 
 	// 1-1. (사장님) 메뉴 추가
 	public void add(Scanner sc) {
 		System.out.println("제품 추가");
+		int num = dupTest();
 		System.out.print("menuName:");
 		String menuName = sc.next();
 		System.out.print("category (음료, 푸드):");
@@ -35,7 +45,7 @@ public class MenuService {
 		String expl = sc.nextLine();
 		System.out.print("Choose / Hot / Iced (없으면 0 입력):");
 		String hc = sc.next();
-		menuDao.insert(new MenuVo(0, category, menuName, price, expl, hc));
+		menuDao.insert(new MenuVo(num, category, menuName, price, expl, hc));
 
 	}
 
@@ -111,7 +121,7 @@ public class MenuService {
 	public void getProduct(Scanner sc) {
 		boolean tf = true;
 		while (tf) {
-			System.out.println("원하는 카테고리릉 입력하세요. 1. 음료, 2. 푸드 (다른 값을 입력하면 뒤로갑니다.)");
+			System.out.println("원하는 카테고리를 입력하세요. 1. 음료, 2. 푸드 (다른 값을 입력하면 뒤로갑니다.)");
 			int num = sc.nextInt();
 			if (num == 1) {
 				getBev(sc);
@@ -126,97 +136,123 @@ public class MenuService {
 	// 4-1. (손님) 음료 리스트 출력
 	public void getBev(Scanner sc) {
 		System.out.println("<음료 메뉴 목록>");
-		ArrayList<MenuVo> list = menuDao.selectBev();
+		ArrayList<MenuVo> list = menuDao.selectByCategory("음료");
 		for (MenuVo vo : list) {
-			System.out.println("|" + vo.getNum() + "\t|" + vo.getMenuName() + "\t|" + vo.getPrice() + "\t|"
-					+ vo.getExpl() + "\t|" + vo.getHc() + "\t|");
+			System.out.print("|" + vo.getNum());
+			if (vo.getNum() < 10)
+				System.out.print(" ");
+			System.out.print("|" + vo.getCategory() + "\t|" + vo.getMenuName());
+			if (vo.getMenuName().length() <= 5)
+				System.out.print("\t");
+			System.out.println("\t|" + vo.getPrice() + "\t|" + vo.getHc() + "\t|" + vo.getExpl());
+
 		}
-		int num = select(sc);
-		if (num == 0)
-			return;
+		System.out.println("메뉴번호를 입력하세요.");
+		int num = sc.nextInt();
 		MenuVo vo = menuDao.selectByNum(num);
+		if (vo == null || !vo.getCategory().substring(0, 2).equals("음료")) {
+			System.out.println("없는 음료 번호입니다.");
+			return;
+		}
 		if (vo.getHc().equals("choose")) {
-			System.out.print("1.Hot 2.Iced:");
-			int m = sc.nextInt();
-			switch (m) {
-			case 1:
-				vo.setHc("Hot");
-				break;
-			case 2:
-				vo.setHc("Iced");
-				break;
+			boolean tf = true;
+			while (tf) {
+				System.out.print("1.Hot 2.Iced:");
+				int m = sc.nextInt();
+				switch (m) {
+				case 1:
+					vo.setHc("Hot");
+					tf = false;
+					break;
+				case 2:
+					vo.setHc("Iced");
+					tf = false;
+					break;
+				default:
+					System.out.println("없는 선택지 입니다. 다시 선택해주세요.");
+					break;
+				}
 			}
 		}
 		System.out.println("음료를 담을 갯 수를 입력하세요.");
 		int count = sc.nextInt();
 		for (int i = 0; i < count; i++) {
-			list.add(vo);
+			cart.add(vo);
 		}
 	}
 
 	// 4-2. (손님) 푸드 리스트 출력
 	public void getFood(Scanner sc) {
 		System.out.println("<푸드 메뉴 목록>");
-		ArrayList<MenuVo> list = menuDao.selectFood();
+		ArrayList<MenuVo> list = menuDao.selectByCategory("푸드");
 		for (MenuVo vo : list) {
-			System.out.println("|" + vo.getNum() + "\t|" + vo.getMenuName() + "\t|" + vo.getPrice() + "\t|"
-					+ vo.getExpl() + "\t|");
+			System.out.print("|" + vo.getNum() + "|" + vo.getCategory() + "|" + vo.getMenuName());
+			if (vo.getMenuName().length() <= 5)
+				System.out.print("\t");
+			System.out.println("\t|" + vo.getPrice() + "\t|" + vo.getExpl());
 		}
-		int num = select(sc);
-		if (num == 0)
-			return;
+		System.out.println("메뉴번호를 입력하세요.");
+		int num = sc.nextInt();
 		MenuVo vo = menuDao.selectByNum(num);
-		System.out.println("음료를 담을 갯 수를 입력하세요.");
+		if (vo == null || !vo.getCategory().equals("푸드")) {
+			System.out.println("없는 푸드 번호입니다.");
+			return;
+		}
+		System.out.println("푸드를 담을 갯 수를 입력하세요.");
 		int count = sc.nextInt();
 		for (int i = 0; i < count; i++) {
-			list.add(vo);
+			cart.add(vo);
 		}
 	}
 
-	// 총 장바구니 + 총 가격 + 할인된 가격
-	public int getCartSum() {
+	public int printCart(double rate) {
 		int sum = 0;
 		System.out.println("<장바구니 목록>");
+		if (cart.isEmpty()) {
+			return -1;
+		}
 		for (int i = 0; i < cart.size(); i++) {
 			MenuVo vo = cart.get(i);
-			System.out.println("|" + i + "\t|" + vo.getMenuName() + "\t|" + vo.getPrice() + "\t|" + vo.getHc() + "\t|");
+			System.out.printf("|%2d|%12s", i, vo.getMenuName());
+			System.out.println("\t|" + vo.getPrice() + "\t|" + vo.getHc() + "\t|");
 
 			sum += cart.get(i).getPrice();
 		}
 		System.out.println("<총 가격:" + sum + ">");
+		sum = sum - (int) (sum * rate);
+		System.out.println("<할인된 가격:" + sum + ">");
 
-		 int discount = sum - ((int) (sum * membershipService.selectRate()));
-		 System.out.println("<할인된 가격:" + discount + ">");
 		return sum;
 	}
 
-	// 장바구니 취소
-	public void cancel(Scanner sc) {
-		System.out.print("취소할 메뉴 번호:");
-		int i = sc.nextInt();
-		cart.remove(i);
-		getCartSum();
+	// 총 장바구니 + 총 가격 + 할인된 가격
+	public int getCartSum(Scanner sc, double rate) {
+		int num;
+		while (true) {
+			if (printCart(rate) == -1) {
+				System.out.println("장바구니가 비어져있습니다.");
+				return -1;
+			}
+			System.out.println("1. 장바구니 제품 취소하기, 2. 결제하기 (다른 값을 입력하면 뒤로갑니다.)");
+			num = sc.nextInt();
+			if (num != 1) {
+				break;
+			}
+			System.out.println("취소할 제품의 목록 번호를 입력해주세요. (다른 값을 입력하면 뒤로갑니다.)");
+			num = sc.nextInt();
 
+			if (cart.size() <= num) {
+				System.out.println("장바구니 목록에 없는 제품입니다.");
+			} else {
+				cart.remove(num);
+				System.out.println("삭제 되었습니다.");
+			}
+		}
+
+		// int discount = sum - ((int) sum * selectRate());
+		// System.out.println("<할인된 가격:" + discount + ">");
+		return num;
 	}
-
-	// 결제 후 포인트 반환 -> 회원관리 업데이트
-	
-//	  public int payment() { System.out.println("결제되었습니다.");
-//	  
-//	  int point = (int) (getCartSum() * 0.1); // 포인트 적립율 
-//	  System.out.println(point +" 표인트 적립되었습니다.");
-//	  
-//	  return point;
-//	  
-//	  }
-	 
-	
-	
-	
-	
-	
-	
-	
 
 	// 결제 후 장바구니 반환 -> 판매내역/구매내역 업데이트
 	public ArrayList<MenuVo> getCart() {
