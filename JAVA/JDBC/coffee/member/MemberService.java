@@ -2,22 +2,16 @@ package member;
 
 import java.util.Scanner;
 
-import menu.MenuService;
 import membership.MembershipDao;
 
 public class MemberService {
 	MemberVo vo;
 	MemberDao dao;
-	MenuService ms;
 	public static String LOGINID;
-	
-	MembershipDao msDao;
 
 	public MemberService() {
 		vo = new MemberVo();
 		dao = new MemberDao();
-		ms = new MenuService();
-		msDao = new MembershipDao();
 	}
 
 	// 회원가입
@@ -71,6 +65,7 @@ public class MemberService {
 		if (LOGINID == null) {
 			System.out.println("이미 로그아웃 상태입니다.");
 		} else {
+			
 			System.out.println(LOGINID + "님 로그아웃 되었습니다.");
 			LOGINID = null;
 		}
@@ -94,19 +89,18 @@ public class MemberService {
 		if (flag == false) {
 			return;
 		}
-		
-		System.out.print("정보를 수정하려면 비밀번호를 입력하세요.");
-		String password = sc.next();
-		if(vo.getPwd().equals(password)) {
+		System.out.println("비밀번호를 입력하세요.");
+		String str = sc.next();
+		if(dao.select(LOGINID).getPwd().equals(str)) {
 			System.out.print("수정할 비밀번호: ");
 			String pwd = sc.next();
 			System.out.print("수정할 이름: ");
 			String name = sc.next();
 			System.out.print("수정할 핸드폰번호: ");
 			String phnum = sc.next();
-			
 			dao.update(new MemberVo(LOGINID, pwd, name, phnum, 0, ""));
-		} else {
+		}
+		else {
 			System.out.println("잘못된 비밀번호입니다.");
 		}
 	}
@@ -123,24 +117,33 @@ public class MemberService {
 
 	// 포인트 등급 비교
 	public void grade() {
+		MembershipDao msDao = new MembershipDao();
 		MemberVo vo = dao.select(LOGINID);
-		String gradeName = msDao.grade(vo.getPoint());
+		String upGrade = vo.getGrade(); // 전 등급 
+		String gradeName = msDao.grade(vo.getPoint()); // 구매 후 등급
+		
 		vo.setGrade(gradeName);
-		System.out.println(gradeName + "등급이 되셨습니다. 축하드립니다.");
+		dao.update(gradeName);
+		
+		if(!upGrade.equals(gradeName)) { // 전 후 등급 비교 
+			System.out.println(gradeName + "등급이 되셨습니다. 축하드립니다.");
+		}
 	}
 
 	// 탈퇴
 	public void withdraw(Scanner sc) {
-		System.out.println("[회원 탈퇴]");
-		if (LOGINID == null) {
-			System.out.println("로그인 후 이용가능합니다.");
-		} else {
-			System.out.println("회원 탈퇴 하시겠습니까? Y/N");
-			String a = sc.next();
-			if (a.equals("Y")) {
-				dao.delete(LOGINID);
-			}
-			LOGINID = null;
-		}
-	}
+	      System.out.println("[회원 탈퇴]");
+	      if (LOGINID == null) {
+	         System.out.println("로그인 후 이용가능합니다.");
+	      } else {
+	         System.out.println("회원 탈퇴를 진행하시려면 '탈퇴'를 입력하시오.");
+	         String a = sc.next();
+	         if (a.equals("탈퇴")) {
+	            dao.delete(LOGINID);
+	            LOGINID = null;
+	         } else {
+	            System.out.println("탈퇴가 취소되었습니다.");
+	         }
+	      }
+	   }
 }

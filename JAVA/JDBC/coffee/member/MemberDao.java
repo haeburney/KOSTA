@@ -63,6 +63,26 @@ public class MemberDao {
 			}
 		}
 	}
+	public void update(String grade) {
+		Connection conn = dbconn.conn();
+		String sql = "update members set grade = ? where id = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, grade);
+			pstmt.setString(2, MemberService.LOGINID);
+			int num = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	// 포인트 누적 적립 수정
 	public void pointUpdate(MemberVo vo) {
