@@ -49,7 +49,7 @@ public class PaymentDao {
 
 		String sql = "select * from payment";
 		try {
-			PreparedStatement ps = conn.prepareStatement("sql");
+			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -71,20 +71,18 @@ public class PaymentDao {
 	}
 
 	// 메뉴별로 정보 보이게 합계 금액 service의 selectMenuName
-	public PaymentVo menuPrint(String name) {
-		PaymentVo vo = null;
+	public ArrayList<PaymentVo> menuPrint(String name) {
+		ArrayList<PaymentVo> list = new ArrayList<>();
 		Connection conn = dbconn.conn();
-		String sql = "select * from (select menuName, sum(price) from payment group by menuName) where menuName=?";
+		String sql = "select * from (select menuName, sum(price) from payment group by menuName) where menuName like '%' || ? || '%'";
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
 			ps.setString(1, name);
-			int num = ps.executeUpdate();
-			System.out.println(num + "줄 menuPrint");
+			ResultSet rs = ps.executeQuery();
 
-			if (rs.next()) {
-				vo = new PaymentVo(null, rs.getString(1), rs.getInt(2), null);
+			while (rs.next()) {
+				list.add(new PaymentVo(null, rs.getString(1), rs.getInt(2), null));
 			}
 
 		} catch (SQLException e) {
@@ -98,12 +96,12 @@ public class PaymentDao {
 				e.printStackTrace();
 			}
 		}
-		return vo;
+		return list;
 	}
 
 	// 년도별 한 달씩 금액 보이게
 	public ArrayList<PaymentVo> monthPrint() {
-		ArrayList<PaymentVo> list = new ArrayList();
+		ArrayList<PaymentVo> list = new ArrayList<>();
 		Connection conn = dbconn.conn();
 		String sql = "select substr(day, 1, 5) as 월별, sum(price) from payment group by substr(day, 1, 5) order by 월별";
 		// String sql = "select to_char(day, 'yyyy-mm') as 월별, sum(count) as 총수,
@@ -133,7 +131,7 @@ public class PaymentDao {
 
 	// 년도별 금액 보이게
 	public ArrayList<PaymentVo> yearPrint() {
-		ArrayList<PaymentVo> list = new ArrayList();
+		ArrayList<PaymentVo> list = new ArrayList<>();
 		Connection conn = dbconn.conn();
 		String sql = "select substr(day, 1, 2) as 년도별, sum(price) from payment group by substr(day, 1, 2) order by 년도별";
 
@@ -162,7 +160,7 @@ public class PaymentDao {
 	public PaymentVo selectPrice(String day1, String day2) {
 		PaymentVo vo = null;
 		Connection conn = dbconn.conn();
-		String sql = "select sum(salary) from payment where to_char(day, 'yyyy-mm') between ? and ?";
+		String sql = "select sum(price) from payment where to_char(day, 'yyyy-mm') between ? and ?";
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -189,8 +187,8 @@ public class PaymentDao {
 		return vo;
 	}
 
-	public PaymentVo selectId(String id) {
-		PaymentVo vo = null;
+	public ArrayList<PaymentVo> selectId(String id) {
+		ArrayList<PaymentVo> list = new ArrayList<>();
 		Connection conn = dbconn.conn();
 		String sql = "select * from payment where id like ?";
 
@@ -200,7 +198,7 @@ public class PaymentDao {
 			int num = ps.executeUpdate();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				vo = new PaymentVo(rs.getDate(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+				list.add(new PaymentVo(rs.getDate(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -213,6 +211,6 @@ public class PaymentDao {
 				e.printStackTrace();
 			}
 		}
-		return vo;
+		return list;
 	}
 }
