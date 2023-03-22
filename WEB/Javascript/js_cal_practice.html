@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>계산기</title>
+<script>
+	let answer1 = 0;
+	let op = "";
+
+	function num(n) {
+		f.t1.value += n;
+	}
+	function funOp(o) {
+		answer1 = parseInt(f.t1.value);
+		f.t1.value = "";
+		op = o;
+		console.log("answer1 : " + answer1);
+	}
+	function answer() {
+		let answer2 = parseInt(f.t1.value);
+		console.log("answer2 : " + answer2);
+		f.t1.value = "";
+		switch (op) {
+		case "+":
+			res = answer1 + answer2;
+			break;
+		case "-":
+			res = answer1 - answer2;
+			break;
+		case "*":
+			res = answer1 * answer2;
+			break;
+		case "/":
+			res = answer1 / answer2;
+			break;
+		}
+		f.t1.value = res;
+	}
+	function reset() {
+		f.t1.value = 0;
+	}
+</script>
+</head>
+<body>
+	<h2>계산기</h2>
+	<form name="f">
+		<table>
+			<tr>
+				<td colspan=4><input type="text" name="t1"></td>
+			</tr>
+			<tr>
+				<td><button type="button" onclick="num(7)">7</button></td>
+				<td><button type="button" onclick="num(8)">8</button></td>
+				<td><button type="button" onclick="num(9)">9</button></td>
+				<td><button type="button" onclick="funOp('+')">+</button></td>
+			</tr>
+			<tr>
+				<td><button type="button" onclick="num(4)">4</button></td>
+				<td><button type="button" onclick="num(5)">5</button></td>
+				<td><button type="button" onclick="num(6)">6</button></td>
+				<td><button type="button" onclick="funOp('-')">-</button></td>
+			</tr>
+			<tr>
+				<td><button type="button" onclick="num(1)">1</button></td>
+				<td><button type="button" onclick="num(2)">2</button></td>
+				<td><button type="button" onclick="num(3)">3</button></td>
+				<td><button type="button" onclick="funOp('*')">*</button></td>
+			</tr>
+
+			<tr>
+				<td><button type="button" onclick="reset()">CE</button></td>
+				<td><button type="button" onclick="num(0)">0</button></td>
+				<td><button type="button" onclick="answer()">=</button></td>
+				<td><button type="button" onclick="funOp('/')">/</button></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

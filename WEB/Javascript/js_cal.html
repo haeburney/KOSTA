@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style type="text/css">
+input[type=button] {
+	width: 40px;
+	height: 40px;
+}
+</style>
+
+<script>
+	let result1 = 0;
+	let op = "";
+</script>
+</head>
+
+<body>
+	<script>
+		function num(n) {
+			f.t1.value += n;
+		}
+
+		function funOp(o) {
+			op = o; // 선택한 연산자를 op에 저장
+			result1 = parseInt(f.t1.value); 
+			console.log("result1 : " + result1);
+			f.t1.value = "";
+		}
+
+		function answer(n) {
+			let result2 = parseInt(f.t1.value);
+			f.t1.value = "";
+			console.log("result2 : " + result2);
+
+			switch (op) {
+			case "+":
+				res = result1 + result2;
+				break;
+			case "-":
+				res = result1 - result2;
+				break;
+			case "*":
+				res = result1 * result2;
+				break;
+			case "/":
+				res = result1 / result2;
+				break;
+			}
+
+			f.t1.value = res;
+		}
+
+		function zero() {
+			//result1 = 0;
+			f.t1.value = "";
+		}
+	</script>
+	<div id="cal">
+		<h3>계산기</h3>
+
+		<form name="f">
+			<table>
+				<tr>
+					<td colspan="4"><input type="text" name="t1"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="1" onclick="num('1')"></td>
+					<td><input type="button" value="2" onclick="num('2')"></td>
+					<td><input type="button" value="3" onclick="num('3')"></td>
+					<td><input type="button" value="+" onclick="funOp('+')"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="4" onclick="num('4')"></td>
+					<td><input type="button" value="5" onclick="num('5')"></td>
+					<td><input type="button" value="6" onclick="num('6')"></td>
+					<td><input type="button" value="-" onclick="funOp('-')"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="7" onclick="num('7')"></td>
+					<td><input type="button" value="8" onclick="num('8')"></td>
+					<td><input type="button" value="9" onclick="num('9')"></td>
+					<td><input type="button" value="*" onclick="funOp('*')"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="0" onclick="num('1')"></td>
+					<td><input type="button" value="C" onclick="zero()"></td>
+					<td><input type="button" value="=" onclick="answer('=')"></td>
+					<td><input type="button" value="/" onclick="funOp('/')"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script>
+	function a(path) {
+		location.href = path;
+	}
+	function b() {
+		alert(f.btn1.value);
+	}
+	function c() {
+		alert("function c");
+	}
+	function d() {
+		alert("function d");
+	}
+	function e() {
+		f.val.value="hello";
+		console.log(f.check.value);
+	}
+	function g(){
+		alert(f.val.value);
+		console.log(f.check2.value);
+	}
+</script>
+</head>
+<body>
+	<form name="f">
+	<input type="button" value="1페이지로 이동" onclick="a('js_mul.html')">
+	<input type="button" value="2페이지로 이동" onclick="a('js_alert.html')">
+	<br />
+	<br />
+	<input type="button" name="btn1" value="btn1" onclick="b()">
+	<input type="button" value="btn2" onclick="c()">
+	<input type="button" value="btn3" onclick="d()">
+	<br />
+	<br />
+	<input type="text" name="val" value="hi">
+	<input type="button" name="check" value="확인" onclick="e()">
+	<input type="button" name="check2" value="확인2" onclick="g()">
+	<!-- 텍스트 박스에 입력한 값을 알러트로 알려줌  -->
+	</form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	window.onload = function() {
+		alert("페이지 열리자마자 실행됨");
+	}
+	// 얘는 함수가 이름이 없네? 이런 걸 익명함수라고 한다. 
+	// 페이지가 열리자마자 시작되어야 하는 코드들을 window.onload에 넣는다.
+
+	function a(tt, str) {
+		console.log(str + " 요소가 코퍼스 얻음");
+		tt.value = "hello " + str;
+	}
+	function b(tt) {
+		tt.value = "푸커스 빼앗겼음";
+	}
+	function c() {
+		f.total.value = f.sel.value * 1000;
+	}
+	function f1() {
+		let div = document.getElementById("mydiv");
+		console.log("야호");
+		div.style.backgroundColor = 'yellow';
+	}
+	function f2() {
+		let div = document.getElementById("mydiv");
+		div.style.backgroundColor = 'green';
+	}
+	function f3() {
+		console.log("length : " + f.keytest.value.length);
+		let len = 10 - f.keytest.value.length;
+		console.log(len);
+		let div = document.getElementById("ddd");
+		div.innerHTML = len;
+	}
+</script>
+</head>
+<body>
+	<form name="f">
+		<input type="text" name="t1" onfocus="a(this,'t1')" onblur="b(this)"><br>
+		<input type="text" name="t2" onfocus="a(this,'t2')" onblur="b(this)">
+		<br> <br> 가격:1000 <br> 수량: <select name="sel"
+			onchange="c()">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select><br> 결제금액 : <input type="text" name="total" value="0">
+
+		<div id="mydiv"
+			style="width: 150px; height: 150px; border: 2px solid red"
+			onmouseover="f1()" onmouseout="f2()"></div>
+		10글자까지만 입력
+		<div id="ddd">10</div>
+		<input type="text" name="keytest" onkeyup="f3()">
+	</form>
+
+
+</body>
+</html>
