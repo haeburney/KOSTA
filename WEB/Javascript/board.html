@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert title here</title>
+    <style>
+        #t1 {
+            border: 1px solid black;
+        }
+
+        div {
+            border: 1px solid black;
+            border-bottom: 1px solid black;
+            width: 263px;
+        }
+    </style>
+    <script>
+        let cnt = 1;
+        var modD = "";
+        function a() {
+            let writer = f.writer.value;
+            let pwd = f.pwd.value;
+            let content = f.content.value;
+
+            let el = mkDiv(writer, pwd, content);
+            let list = document.getElementById("list");
+            list.appendChild(el);
+        }
+        function mkDiv(writer, pwd, content) {
+            let newDiv = document.createElement("div");
+            newDiv.id = "d_" + cnt;
+            let mkId = "d_" + cnt;
+            // 밑에 id에 newDiv.id 넣어주면 오류 나길래 고냥 변수로 값을 넣어줌 
+
+            let html = "";
+            html += "작성자 : " + writer + "<br/>";
+            html += "내용 : <span id=" + mkId + "Span>" + content + "</span><br/>";
+            // 내용 수정하면 그 부분 변경해야 해서 span에 id = mkId + "span" 넣어주기 (고유하게)
+            html += "<input type=\"button\" id=" + mkId + " value=\"수정\" onclick=\"modify(" + mkId + ")\">";
+            html += "<input type=\"button\" id=" + mkId + "' value=\"삭제\" onclick=\"del(" + mkId + ")\">";
+            // 어머 아까 저녁에는 이상하게 짰는데 이렇게 변수명 넣어줘도 됐었음
+            html += "<div id=\"" + mkId + "xxx\"></div>";
+            // id : mkId + "xxx"로 잡아줘서 해당 리스트 밑에 수정 폼이 뜰 수 있게 만들기 
+            newDiv.innerHTML = html;
+            //이 모든걸 div에 넣어 ~.~ 
+
+            cnt++;
+            return newDiv;
+        }
+
+        function del(delId) {
+            let list = document.getElementById("list");
+            list.removeChild(document.getElementById(delId.id));
+            cnt--;
+            console.log(delId.id + " 방명록 삭제됨");
+        }
+
+        function modify(m) {
+            console.log("수정 : " + m.id);
+            modD = m.id;
+
+            var newForm = document.createElement("form");
+            // createElement로 form 생성해주기 
+            newForm.name = "modForm";
+
+
+            var input1 = document.createElement("input"); // 수정할 텍스트 적는 곳
+            var input2 = document.createElement("input"); // 수정된 버튼 누르는 곳
+
+            input1.setAttribute("type", "text");
+            input1.setAttribute("name", "write");
+            input1.setAttribute("placeholder", "수정 내용 입력");
+
+            input2.setAttribute("type", "button");
+            input2.setAttribute("name", "writeBtn");
+            input2.setAttribute("value", "진짜진짜로 수정할게요 정말요!");
+            input2.setAttribute("onclick", "mod()"); // 버튼 누르면 mod() 실행
+
+            newForm.appendChild(input1); // 위를 출력? 만들어? 줍니다
+            newForm.appendChild(input2);
+
+            document.getElementById(modD + "xxx").appendChild(newForm); // 하나의 방명록 밑에 하나의 수정이 보이게 
+        }
+
+        function mod() {
+            let list = document.getElementById("list");
+            console.log("진짜 수정 : " + modD);
+
+            // 내용 변경해주기 
+            let span = document.getElementById(modD + "Span");
+            console.log(span);
+            span.innerHTML = modForm.write.value;
+
+            // 찐으로 수정 폼 삭제
+            let xName = modD + "xxx";
+            let xxx = document.getElementById(modD + "xxx");
+
+            let delMod = document.getElementsByName("modForm");
+            xxx.removeChild(delMod[0]);
+            // getElementsByName은 배열이라 인덱스를 선언해줘야하는데 일단 냅다 0 넣어줬는데 어찌저찌 돌아가.ㅁ..
+        }
+    </script>
+</head>
+
+<body>
+    <h3>방명록</h3>
+    <form name="f">
+        <table id="t1">
+            <tr>
+                <td>작성자</td>
+                <td><input type="text" name="writer" id="writer"></td>
+            </tr>
+            <tr>
+                <td>글 비밀번호</td>
+                <td><input type="text" name="pwd" id="pwd"></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><input type="text" name="content" id="content"></td>
+            </tr>
+            <tr>
+                <td>작성</td>
+                <td><input type="button" value="작성" onclick="a()"></td>
+            </tr>
+        </table>
+
+        <div id="list">
+        </div>
+    </form>
+
+
+</body>
+
+</html>

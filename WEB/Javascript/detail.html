@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script>
+function a(el){
+	let bigImg = document.getElementById("bigImg");
+	bigImg.src = el.src;
+	console.log(el);
+}
+function buy(){
+	let price = parseInt(document.getElementById("price").innerHTML);
+	let amount = parseInt(document.getElementById("amount").value);
+	document.getElementById("total").innerHTML = price * amount + "";
+}
+
+</script>
+</head>
+<body>
+	<h3>제품 상세 페이지</h3>
+	<table border="1" cellspacing='0'>
+		<tr>
+			<td>
+				<table>
+				<tr><td colspan="4"><img id="bigImg" src="../img/p1.jpg" style="width:200px; height:200px"></td></tr>
+				<tr>
+					<td><img src="../img/p2.jpg" style="width:50px; height:50px" onmouseover="a(this)"></td>
+					<td><img src="../img/p3.jpg" style="width:50px; height:50px" onmouseover="a(this)"></td>
+					<td><img src="../img/p4.jpg" style="width:50px; height:50px" onmouseover="a(this)"></td>
+					<td><img src="../img/p5.jpg" style="width:50px; height:50px" onmouseover="a(this)"></td>
+				</tr>
+				</table>
+			</td>
+			<td>
+				<table border="1" cellspacing='0'>
+					<tr><th>제품명</th><td>그래놀라 컵시리얼</td></tr>
+					<tr><th>가격</th><td id="price">3000</td></tr>
+					<tr><th>주문수량</th><td><input type="number" id="amount" onclick="buy()"></td></tr>
+					<tr><th>결제금액</th><td id="total"></td></tr>
+					<tr><th>결제</th><td><input type="button" value="바로결제">
+										<input type="button" value="장바구니"></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr><td colspan="2">상품 상세 설명</td></tr>
+		<tr>
+			<td colspan="2">완전 맛있다!!!
+				<img src="../img/p1.jpg" style="width:400px; height:400px">
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

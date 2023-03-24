@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
+<style>
+
+</style>
+<script>
+	let sell = -1;
+	let cate2arr = [["남성패션", "여성패션", "아동패션"], ["세탁기", "냉장고", "TV", "컴퓨터"]
+				, ["침대", "옷장", "책상", "소파"], ["신발", "악세사리"]];
+	let arr = [ "coupang1.png", "coupang2.jpg", "coupang3.jpg", "coupang4.jpg",
+			"coupang5.jfif", "coupang6.jpg" ];
+	let cnt = 0;
+
+	function imgPlay() {
+		document.image.src = "../img/" + arr[cnt % arr.length];
+		setTimeout(imgPlay, 1000);
+		cnt++;
+	}
+
+	window.onload = imgPlay;
+	
+	function categoryOver(){
+		console.log("마우스 들어옴");
+		let a = document.getElementById("category");
+		a.style.display="";
+	}
+	
+	function categoryOut(id){
+		console.log("마우스 나감 ");
+		let a = document.getElementById(id);
+		a.style.display='none';
+	}
+	
+	function c(idx){
+		sel1 = idx;
+		let arr = cate2arr[idx];
+		console.log(arr);
+		let html="";
+		for(i=0;i<arr.length;i++){
+			html += arr[i] + "<br/>";
+		}
+		let cate2=document.getElementById("cate2");
+		cate2.innerHTML = html;
+		cate2.style.display='';
+	}
+	
+	function d(){
+		c(sel1);
+	}
+	
+	
+	
+</script>
+</head>
+<body>
+	<table style="border: 2px solid black;">
+		<tr>
+			<td colspan="1"><div><img src="../img/coupangCategory.png" id="aaa" style="width:100px; height:100px;"  onmouseover="categoryOver()" onmouseout="categoryOut('cate1')"></div></td>
+			<td colspan="3" style="font-size:30px; text-align:center">쿠팡</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+			<img name="image" src="../img/coupang.png" style="width: 600px; height: 300px"></td>
+		</tr>
+		<tr>
+			<td><a href="detail.html"><img src="../img/p1.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p2.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p3.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p4.jpg" style="width: 130px; height: 200px"></a></td>
+		</tr>
+		<tr>
+			<td><a href=""><img src="../img/p5.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p6.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p7.jpg" style="width: 130px; height: 200px"></a></td>
+			<td><a href=""><img src="../img/p8.jpg" style="width: 130px; height: 200px"></a></td>
+		</tr>
+	</table>
+	
+
+	
+	
+	
+	<div id="category" style="display:none; position:absolute; top:112px; left:12px; width:100px; height:200px; border:1px solid blue; background-color:white;"   onmouseover="categoryOver()" onmouseout="categoryOut('cate1')">
+		<table style="width:100px">
+		<tr onmouseover="c(0)" onmouseout="categoryOut('cate2')"   ><td>의류</td></tr>
+		<tr onmouseover="c(1)" onmouseout="categoryOut('cate2')"  ><td>가전</td></tr>
+		<tr onmouseover="c(2)" onmouseout="categoryOut('cate2')"  ><td>가구</td></tr>
+		<tr onmouseover="c(3)" onmouseout="categoryOut('cate2')"  ><td>잡화</td></tr>
+		</table>
+		
+		
+		
+
+	</div>
+	<div onmouseover="d()" onmouseout="categoryOut('cate2')" id="cate2" style="display:none; position:absolute; top:112px; left:112px; border:1px solid blue;
+	background-color:white; width:100px; height:200px" >
+	</div>
+</body>
+</html>

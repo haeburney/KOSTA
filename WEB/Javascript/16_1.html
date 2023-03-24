@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script>
+	let sel1 = -1;
+	let cate2arr = [["남성패션", "여성패션", "아동패션"], 
+					["세탁기", "냉장고", "TV", "컴퓨터"], 
+					["침대", "옷장", "책상", "소파"], 
+					["신발", "악세서리"]];
+	let arr = [ "1.jpg", "2.jpg", "3.jpg" ];//이미지 파일명들
+	let cnt = 0;
+	window.onload = function() {
+		changeImg();
+	}
+	function changeImg() {
+		let img = document.getElementById("img");
+		img.src = "../img/" + arr[cnt % 3];
+		cnt++;
+		setTimeout(changeImg, 1000);
+	}
+	function a(){
+		let cate1 = document.getElementById("cate1");
+		cate1.style.display = '';
+	}
+	function b(id){
+		let cate1 = document.getElementById(id);
+		cate1.style.display = 'none';
+	}
+	function c(idx){
+		sel1 = idx;
+		let arr = cate2arr[idx]; //idx:0 [남성패션, 여성패션...]
+		let html = "";
+		for(i=0;i<arr.length;i++){
+			html += arr[i]+"<br/>";
+		}
+		let cate2 = document.getElementById("cate2");
+		cate2.innerHTML = html;
+		cate2.style.display = '';
+	}
+	function d(){
+		c(sel1);
+	}
+</script>
+</head>
+<body>
+	<table style="border: 2px solid black">
+		<tr>
+			<td><img src="../img/cate.jpg" style="width: 100px; height: 100px"  onmouseover="a()" onmouseout="b('cate1')"></td> 
+			<td colspan="3" style="font-size:30pt;text-align:center">쿠핑</td>
+		</tr>
+		<tr>
+			<td colspan="4"><img src="../img/naver.gif" id="img"
+				style="width: 600px; height: 300px"></td>
+		</tr>
+		<tr>
+			<td>제품1</td>
+			<td>제품1</td>
+			<td>제품1</td>
+			<td>제품1</td>
+		</tr>
+		<tr>
+			<td>제품1</td>
+			<td>제품1</td>
+			<td>제품1</td>
+			<td>제품1</td>
+		</tr>
+	</table>
+	
+	<div onmouseover="a()" onmouseout="b('cate1')" id="cate1" style="display:none;position:absolute;top:112px;
+	left:12px;border:1px solid blue;background-color:white;width:100px;height:200px">
+	<table style="width:100px">
+	<tr onmouseover="c(0)" onmouseout="b('cate2')"><td>의류</td></tr>
+	<tr onmouseover="c(1)" onmouseout="b('cate2')"><td>가전</td></tr>
+	<tr onmouseover="c(2)" onmouseout="b('cate2')"><td>가구</td></tr>
+	<tr onmouseover="c(3)" onmouseout="b('cate2')"><td>잡화</td></tr>
+	</table>
+	</div>
+	<div onmouseover="d()" onmouseout="b('cate2')" id="cate2" style="display:none;position:absolute;top:112px;left:112px;border:1px solid blue;
+	background-color:white;width:100px;height:200px">
+	</div>
+	
+	
+</body>
+</html>
