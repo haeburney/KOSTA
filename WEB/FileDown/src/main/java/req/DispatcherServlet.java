@@ -51,23 +51,21 @@ public class DispatcherServlet extends HttpServlet {
 		// 파람 경로를 웹에서 사용하는 실제 경로로 변환
 		// 왜 가져오지?
 		String path = this.getServletContext().getRealPath("/WEB-INF/commands.properties");
-		//System.out.println("path : "+path);
+		// System.out.println("path : "+path);
 		try {
 			// command.properties 파일의 키, 값을 로드해서 prop에 저장
 			// 파일의 내용이 변수 prop에 다 들어간다고?
 			prop.load(new FileReader(path));
 			Iterator iter = prop.keySet().iterator();
-			//System.out.println("iter : "+iter);
+			// System.out.println("iter : "+iter);
 			// 키만 뽑아서
 			while (iter.hasNext()) {
 				String url = (String) iter.next(); // member/join.do
-				//System.out.println("init() url : " + url);
-				
-				
+				// System.out.println("init() url : " + url);
 
 				try {
 					String className = prop.getProperty(url); // handler.member.JoinHandler
-					//System.out.println("className : " + className);
+					// System.out.println("className : " + className);
 					// 밑에 3줄은 "JoinHandler h = new JoinHandler();" 이렇게 하는 것과 똑같은 코드이다.
 
 					// Class : 클래스에 대한 정보 갖음. 클래스 이름, 멤버변수 이름/타입, 메서드 이름/프로토타입
@@ -135,15 +133,24 @@ public class DispatcherServlet extends HttpServlet {
 			// 요청 처리 메서드 호출
 			// 오우 이 해 안 가
 			view = handler.process(request, response);
-
-			if (view.startsWith("redirect")) {
-				// 결과를 받은 view가 redirect로 시작하느냐?
-				String[] path = view.split(":");
-				response.sendRedirect(request.getContextPath() + path[1]);
-			} else {
-				RequestDispatcher dis = request.getRequestDispatcher(view);
-				dis.forward(request, response);
+			System.out.println("view : "+view);
+			System.out.println(view != null);
+			if (view != null) {
+				if (view.startsWith("redirect")) {
+					// 결과를 받은 view가 redirect로 시작하느냐?
+					String[] path = view.split(":");
+					response.sendRedirect(request.getContextPath() + path[1]);
+				} else if (view.startsWith("responsebody")) {
+					String[] path = view.split("/");
+					// ajax는 그냥 뿌려주죠
+					System.out.println("path[1] : " +path[1]);
+					response.getWriter().append(path[1]);
+				} else {
+					RequestDispatcher dis = request.getRequestDispatcher(view);
+					dis.forward(request, response);
+				}
 			}
+
 		} else {
 			response.getWriter().append("404 not found url");
 		}

@@ -1,27 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-// ÀÌ À©µµ¿ì°¡ ·ÎµåµÇÀÚ¸¶ÀÚ ½ÇÇàµÇ´Â ÇÚµé·¯
+// ì´ ìœˆë„ìš°ê°€ ë¡œë“œë˜ìë§ˆì ì‹¤í–‰ë˜ëŠ” í•¸ë“¤ëŸ¬
 window.onload=function(){
-	// request.method : Àü¼Û¹æ½Ä °ªÀ» °®´Â ¼Ó¼º (GET, POST)
+	// request.method : ì „ì†¡ë°©ì‹ ê°’ì„ ê°–ëŠ” ì†ì„± (GET, POST)
 	if('${pageContext.request.method}' == 'GET'){
 		ff.id.value = opener.document.f.id.value;
-	} else { // POST ÀÏ ¶§
-		// id Áßº¹Ã¼Å©¸¦ ´­·¶À» ¶§
+	} else { // POST ì¼ ë•Œ
+		// id ì¤‘ë³µì²´í¬ë¥¼ ëˆŒë €ì„ ë•Œ
 		
 		let html = "";
 		if('${flag}'=='true'){
-			html = "»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµğ";
+			html = "ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë””";
 			let val = '${id}';
 			ff.id.value = val;
-			html += "<input type='button' value='¾ÆÀÌµğ»ç¿ë' onclick='a(\""+val+"\")'>";
+			html += "<input type='button' value='ì•„ì´ë””ì‚¬ìš©' onclick='a(\""+val+"\")'>";
 		} else{
-			html = "»ç¿ëºÒ°¡´ÉÇÑ ¾ÆÀÌµğ";
+			html = "ì‚¬ìš©ë¶ˆê°€ëŠ¥í•œ ì•„ì´ë””";
 		}	
 		let div = document.getElementById("res");
 		div.innerHTML = html;
@@ -35,11 +35,11 @@ function a(id){
 </script>
 </head>
 <body>
-<h3>IDÁßº¹Ã¼Å©</h3>
+<h3>IDì¤‘ë³µì²´í¬</h3>
 
 <form action="${pageContext.request.contextPath }/member/idcheck.do" method="post" name="ff">
 id: <input type="text" name="id">
-<input type="submit" value="id Áßº¹Ã¼Å©">
+<input type="submit" value="id ì¤‘ë³µì²´í¬">
 </form>
 <div id="res">
 </div>

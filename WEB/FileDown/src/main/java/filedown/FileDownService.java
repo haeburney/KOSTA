@@ -3,6 +3,7 @@ package filedown;
 import java.util.ArrayList;
 
 public class FileDownService {
+	public static String downDir = "c:\\down\\";
 	FileDownDao dao;
 	
 	public FileDownService() {
@@ -19,5 +20,9 @@ public class FileDownService {
 	
 	public ArrayList<FileDownVo> c(){
 		return dao.selectAll();
+	}
+	
+	public void editCnt(int num) {
+		dao.updateCnt(num);
 	}
 }

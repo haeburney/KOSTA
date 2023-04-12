@@ -14,9 +14,7 @@ public class OutHandler implements Handler {
 		String id = request.getParameter("id");
 		MemberService service = new MemberService();
 		service.delMember(id);
-		String view = "/member/logout.do";
-		System.out.println("id 삭제.." + id);
 		
-		return view;
+		return "redirect:/member/logout.do";
 	}
 }

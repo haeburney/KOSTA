@@ -13,29 +13,24 @@ public class LoginHandler implements Handler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-
-		String view = "";
-
-		if(request.getMethod().equals("GET")) { // jsp 보여줘야 해
-			view = "/member/login.jsp";
-
+		String msg = "로그인 실패 T.T";
+		String view = "/index.jsp";
+		if (request.getMethod().equals("GET")) { // jsp 보여줘야 해
+			request.setAttribute("view", "/member/login.jsp");
 		} else {
 			String id = request.getParameter("id");
-			String pwd= request.getParameter("pwd");
-			
+			String pwd = request.getParameter("pwd");
 			MemberService service = new MemberService();
 			MemberVo vo = service.getMember(id);
-			System.out.println(id + ", "+ pwd);
-			
-			if(vo!=null && vo.getPwd().equals(pwd)) {
-				System.out.println("로그인 성공");
+			System.out.println("id : " + id + ",  pwd : " + pwd);
+
+			if (vo != null && vo.getPwd().equals(pwd)) {
+				msg = "로그인 성공 ^▽^";
 				HttpSession session = request.getSession();
 				session.setAttribute("loginId", id);
 			}
-			
-			view = "/index.jsp";
 		}
+		request.setAttribute("msg", msg);
 		return view;
 	}
-
 }

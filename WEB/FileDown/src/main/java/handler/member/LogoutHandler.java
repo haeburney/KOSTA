@@ -14,11 +14,9 @@ public class LogoutHandler implements Handler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		String id = request.getParameter("id");
 		HttpSession session = request.getSession(false);
 		session.invalidate();
 		
-		String view = "redirect:/index.jsp";
-		return view;
+		return "/index.jsp";
 	}
 }

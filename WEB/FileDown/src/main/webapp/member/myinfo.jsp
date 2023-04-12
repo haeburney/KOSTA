@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="../css/main.css" />
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../css/main.css?after">
 <style>
 input{
 	border : none;
@@ -15,21 +14,19 @@ input{
 </style>
 </head>
 <body>
-<%-- ${} : elÇ¥Çö½Ä  --%>
-<!-- ÀÌ elÀº ÀÚ¹Ù¿¡¼­ ¾²´ø º¯¼ö¸¦ °¡Á®¿Í¼­ ºäÆäÀÌÁö¿¡¼­ ¾µ ¼ö ÀÖ´Ù. -->
-<!-- m.getId() ¶ó°í ÇÏÁö ¾Ê°í m.id¶ó°í¸¸ ½áµµ getÀ» ÀÎ½ÄÇØ¼­ getterÀ» È£ÃâÇØ¼­ °ªÀ» °¡Á®¿Â´Ù. -->
-<!-- ±×·¡¼­ getter setter ÀÛ¼ºÀ» ÀßÇØ¾ßÇÑ´Ù. ¾ÈÇÏ¸é Àú °ªÀ» °¡Á®¿ÀÁö ¸øÇÔ -->
+<h3>${m.id}ë‹˜ì˜ ì •ë³´</h3>
 
-
-<h3>${m.id}´ÔÀÇ Á¤º¸</h3>
 <form action="${pageContext.request.contextPath }/member/edit.do?id=${m.id}" method="post">
-id : <input type="text" value="${m.id}" name="id" readonly> <br/>
-pwd : <input type="text" value="${m.pwd}" name="pwd" > <br/>
-name : <input type="text" value="${m.name}" name="name"> <br/>
-email : <input type="text" value="${m.email}" name="email" readonly> <br/>
-<input type="submit" value="¼öÁ¤ÇÏ±â">
+	id : <input type="text" value="${m.id}" name="id" readonly> <br/>
+	pwd : <input type="text" value="${m.pwd}" name="pwd" > <br/>
+	name : <input type="text" value="${m.name}" name="name"> <br/>
+	email : <input type="text" value="${m.email}" name="email" readonly> <br/>
+	<input type="submit" value="ìˆ˜ì •í•˜ê¸°">
+	<input type="button" value="ì·¨ì†Œí•˜ê¸°"> 
 </form>
-<a href="${pageContext.request.contextPath }/index.jsp">ÀÌÀüÀ¸·Î µ¹¾Æ°¡±â</a>
+
+<br/>
+<a href="${pageContext.request.contextPath }/index.jsp">ì´ì „ìœ¼ë¡œ ëŒì•„ê°€ê¸°</a>
 
 </body>
 </html>
